@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
+    android:background="#dedede"
+    android:clickable="true"
+    android:orientation="vertical"
+    tools:context=".activity.SalesListActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <TableRow
+                android:background="#ffffff"
+                android:padding="5dp">
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="dd/mm/yyyy" />
+                <TextView
+                    android:id="@+id/invoice_no"
+                    android:layout_width="0dp"
+                    android:textAlignment="viewStart"
+                    android:layout_gravity="start"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="234344" />
+                <TextView
+                    android:id="@+id/product_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:layout_gravity="start"
+
+                    android:layout_weight="1"
+                    android:text="Android Phone" />
+                <TextView
+                    android:id="@+id/amount"
+                    android:paddingRight="10dp"
+                    android:layout_width="0dp"
+                    android:textAlignment="viewEnd"
+                    android:layout_gravity="end"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="30000TK" />
+            </TableRow>
+
+
+
+        </TableLayout>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">WinsoftSalesProject</string>
+    <string name="logo_url">www.winsoftbd.com</string>
+    <string name="logo_slogan">Winsoft Sales Application</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="hint_password">Enter Password</string>
+    <string name="btn_sign_in">Sign In</string>
+    <string name="hint_email">Enter Username</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="lorem">Sample Text</string>
+    <string name="hint_reference">Reference</string>
+    <string name="hint_customer_code">Code</string>
+    <string name="btn_scan">Scan</string>
+    <string name="hint_item_code">Item Code</string>
+    <string name="btn_add">ADD</string>
+    <string name="hint_minimum_unit">Minimum Unit</string>
+    <string name="hint_quantity">Enter Quantity</string>
+    <string name="minimum_unit">Enter Unit</string>
+    <string name="hint_balance">Balance</string>
+    <string name="err_msg_email">Username Not Valid</string>
+    <string name="err_msg_password">Password Not Valid</string>
+    <string name="dialog_add">Add Customer</string>
+    <string name="dialog_title_choose">Choose Customer</string>
+    <string name="dialog_action_cancel">Cancel</string>
+    <string name="title_activity_nav_home">Home</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="license">License</string>
+    <string name="dialog_title_licenses">Developed By</string>
+    <string name="license_title_company">Company Information</string>
+    <string name="license_contact">email@winsoft.com</string>
+    <string name="license_content_company">This apps is developed by Winsoft BD Pvt. Limited.</string>
+    <string name="license_title_developer">Developer Info</string>
+    <string name="license_author_developer">Piash Sarker</string>
+    <string name="license_developer_email">sarkerpt@gmail.com</string>
+    <string name="license_developer_phone">+8801683193505</string>
+    <string name="license_title_company_name">Winsoft BD Pvt. Limited</string>
+    <string name="search">Search</string>
+    <string name="refresh">Refresh</string>
+</resources>

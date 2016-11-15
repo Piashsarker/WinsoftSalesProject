@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:title="Home"
+        android:id="@+id/nav_item_home"></item>
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_item_sale_list"
+                android:title="Sale List"></item>
+
+
+            <item
+                android:id="@+id/nav_item_sale_product"
+                android:title="Sale Product"></item>
+            <item
+                android:id="@+id/nav_item_customer_list"
+                android:title="Customer List"></item>
+
+            <item
+                android:id="@+id/nav_item_logout"
+                android:title="Logout"></item>
+
+            <item
+                android:id="@+id/nav_item_exit"
+                android:title="Exit" />
+
+
+        </menu>
+    </item>
+
+
+
+</menu>

@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.Home"
+    android:background="@color/color_primary_dark">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:drawableLeft="@android:drawable/ic_dialog_email"
+            android:text="Sale List"
+            android:onClick="btnMemoOnClick"
+            android:id="@+id/btn_sale_list" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sale Product"
+            android:onClick="btnHrDataOnclick"
+            android:drawableLeft="@android:drawable/ic_input_add"
+            android:id="@+id/btn_sale_product" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Customer List"
+            android:drawableLeft="@android:drawable/ic_menu_myplaces"
+            android:onClick="btnRecommendationOnClick"
+            android:id="@+id/btn_customer_list" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:drawableLeft="@android:drawable/ic_secure"
+            android:onClick="btnLogOutOnClick"
+            android:id="@+id/btnLogout" />
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="EXits"
+            android:onClick="btnExitsOnClick"
+            android:drawableLeft="@android:drawable/ic_delete"
+            android:id="@+id/btnExits" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="RUNNER GROUP"
+                android:layout_centerInParent="true"
+                android:layout_alignParentBottom="true"
+                android:textColor="#FFF"
+                android:id="@+id/txtGroupName" />
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
