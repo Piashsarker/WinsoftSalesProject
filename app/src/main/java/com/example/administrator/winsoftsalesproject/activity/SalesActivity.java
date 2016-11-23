@@ -32,18 +32,19 @@ import java.util.Locale;
 
 public class SalesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Button btnSale;
-    ImageButton btnAddCustomer;
-    Button btnAddItem;
+    private Button btnSale;
+    private ImageButton btnAddCustomer;
+    private Button btnAddItem;
     private ArrayList<Item> productList = new ArrayList<>();
     private RecyclerView salesList;
     private EditText etDate, etReference, etCustomerCode, etItemCode, etBalance, etQuantity;
     private TextView txtCustomerName, txtItemName;
     private DatePickerDialog datePickerDialog;
     private SimpleDateFormat dateFormat;
-    private String minimumUnit;
+    private String minimumUnit , itemId;
     private ItemAdapter adapter;
-    private String customerId, name;
+    private String customerId, name, itemName;
+    private Intent intent ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,8 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
         hideBottomView();
         setDatePickerDialog();
         loadSpinnerData();
+
+
 
 
     }
@@ -129,6 +132,7 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
         etBalance = (EditText) findViewById(R.id.et_balance);
         etQuantity = (EditText) findViewById(R.id.et_quantity);
         btnSale = (Button) findViewById(R.id.btnSale);
+        txtItemName = (TextView) findViewById(R.id.txt_item_name);
 
 
     }
@@ -143,6 +147,7 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
+
     public void itemScanOnClick(View view) {
         IntentIntegrator scanIntentIntegrator = new IntentIntegrator(this);
         scanIntentIntegrator.initiateScan();
@@ -151,21 +156,41 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==1){
+            if(resultCode==RESULT_OK){
+                customerId = data.getStringExtra("id");
+                etCustomerCode.setText(customerId);
+
+            }
+
+        }
+        if(requestCode ==2){
+            if(resultCode==RESULT_OK){
+                itemId = data.getStringExtra("item_id");
+                etItemCode.setText(itemId);
+                itemName = data.getStringExtra("item_name");
+                txtItemName.setText(itemName);
+            }
+
+        }
+
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (scanningResult != null) {
             String scanContent = scanningResult.getContents();
-            String scanFormat = scanningResult.getFormatName();
             etItemCode.setText(scanContent);
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "No scan data received!", Toast.LENGTH_SHORT);
             toast.show();
         }
+
+
     }
 
     public void btnAddCustomer(View view) {
         Intent intent = new Intent(SalesActivity.this, CustomerActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     public void btnDateOnClick(View view) {
@@ -209,5 +234,12 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
         salesList.setAdapter(adapter);
 
 
+    }
+
+
+    public void btnAddSingleItem(View view) {
+
+        Intent intent = new Intent(SalesActivity.this, ItemActivity.class);
+        startActivityForResult(intent, 2);
     }
 }

@@ -22,7 +22,7 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="lorem">Sample Text</string>
     <string name="hint_reference">Reference</string>
-    <string name="hint_customer_code">Code</string>
+    <string name="hint_customer_code">Customer Code</string>
     <string name="btn_scan">Scan</string>
     <string name="hint_item_code">Item Code</string>
     <string name="btn_add">ADD</string>

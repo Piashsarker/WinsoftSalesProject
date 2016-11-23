@@ -1,5 +1,7 @@
 package com.example.administrator.winsoftsalesproject.retrofit;
 
+import com.example.administrator.winsoftsalesproject.list.CustomerList;
+import com.example.administrator.winsoftsalesproject.list.ItemList;
 import com.example.administrator.winsoftsalesproject.list.LoginList;
 
 import retrofit2.Call;
@@ -17,4 +19,11 @@ public interface ApiService {
             @Query("key") String key,
             @Query("user") String user,
             @Query("pass") String pass);
+    @GET("ItemInfo.aspx")
+    Call<ItemList> getItemDetails(@Query("key") String key,
+                                  @Query("actionType") String actionType);
+
+    @GET("CustomerInfo.aspx")
+    Call<CustomerList> getCustomerDetails(@Query("key")String key ,
+                                          @Query("actionType")String actionType);
 }

@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private TextInputLayout inputLayoutEmail, inputLayoutPassword;
     private TextView txtGroupName;
+    String userName , password;
     private ArrayList<LoginTable> loginList;
 
     @Override
@@ -71,14 +72,16 @@ public class LoginActivity extends AppCompatActivity {
             return;
         } else {
 
-            checkLogin();
+            userName = inputEmail.getText().toString();
+            password = inputPassword.getText().toString();
+            checkLogin( userName ,  password);
 
         }
 
 
     }
 
-    private void checkLogin() {
+    private void checkLogin(String userName, String password) {
 
         if (isNetworkConnected()) {
 
@@ -90,19 +93,25 @@ public class LoginActivity extends AppCompatActivity {
 
             ApiService apiService = RetroClient.getApiService();
 
-            Call<LoginList> call = apiService.getLoginDetails("fr_pt_2016", inputEmail.getText().toString(), inputPassword.getText().toString());
+            Call<LoginList> call = apiService.getLoginDetails("fr_pt_2016", userName, password);
 
             call.enqueue(new Callback<LoginList>() {
                 @Override
                 public void onResponse(Call<LoginList> call, Response<LoginList> response) {
                     progressDialog.dismiss();
+
                     if (response.isSuccess()) {
                         loginList = response.body().getLoginTable();
 
                         /**
                          * Binding that List to Adapter
                          */
-                        authenticateUser();
+                        authenticateUser(loginList);
+
+
+                    }
+                    else{
+                        Toast.makeText(LoginActivity.this, "Server Error!", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -120,14 +129,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void authenticateUser() {
+    private void authenticateUser(ArrayList<LoginTable> loginList) {
         if (!loginList.isEmpty()) {
 
-            String userName = inputEmail.getText().toString().toUpperCase();
-            String password = inputPassword.getText().toString().toUpperCase();
             TelephonyManager mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             String emi = mngr.getDeviceId();
-            if (userName.equals(loginList.get(0).getUserName()) && password.equals(loginList.get(0).getUserPassword())) {
+            if (userName.equalsIgnoreCase(loginList.get(0).getUserName()) && password.equalsIgnoreCase(loginList.get(0).getUserPassword())) {
 
                 if (loginList.get(0).getEmiNumber().equals(emi)) {
                     sessionManager = new SessionManger(getApplicationContext());

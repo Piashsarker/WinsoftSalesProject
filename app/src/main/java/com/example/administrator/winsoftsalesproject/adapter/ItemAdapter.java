@@ -55,7 +55,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
             date = (TextView) itemView.findViewById(R.id.date);
             cutomerCode = (TextView) itemView.findViewById(R.id.invoice_no);
-
             itemCode = (TextView) itemView.findViewById(R.id.product_name);
             amount = (TextView) itemView.findViewById(R.id.amount);
         }

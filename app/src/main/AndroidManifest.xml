@@ -33,9 +33,7 @@
         <activity
             android:name=".activity.SalesActivity"
             android:label="Sales">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.NavHomeActivity" />
+
         </activity>
         <activity
             android:name=".activity.CustomerActivity"
@@ -47,7 +45,13 @@
         <activity
             android:name=".activity.NavHomeActivity"
             android:label="@string/title_activity_nav_home"
-            android:theme="@style/MyMaterialTheme"></activity>
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:label="Item List"
+            android:name=".activity.ItemActivity">
+
+
+        </activity>
     </application>
 
 </manifest>

@@ -1,8 +1,8 @@
 package com.example.administrator.winsoftsalesproject.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.administrator.winsoftsalesproject.R;
+import com.example.administrator.winsoftsalesproject.activity.SalesActivity;
 import com.example.administrator.winsoftsalesproject.model.Customer;
 
 import java.util.ArrayList;
@@ -25,6 +25,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.MyView
 
     private ArrayList<Customer> customerArrayList;
     private Context context ;
+    private onLongItemClickListener onLongItemClickListener;
 
 
 
@@ -45,44 +46,11 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.MyView
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
-        holder.customerName.setText(customerArrayList.get(position).getName());
+        holder.customerName.setText(customerArrayList.get(position).getCustomerName());
         holder.customerAddress.setText(customerArrayList.get(position).getAddress());
-        holder.phoneNumber.setText(customerArrayList.get(position).getDesignation());
-        Glide.with(context).load(customerArrayList.get(position).getPhoto()).into(holder.customerImage);
+        holder.phoneNumber.setText(customerArrayList.get(position).getEmail());
+       // Glide.with(context).load(customerArrayList.get(position).getCustomerId()).into(holder.customerImage);
 
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                ArrayList<String> entrys = new ArrayList<String>();
-                entrys.add(context.getString(R.string.dialog_add));
-
-                final CharSequence[] items = entrys.toArray(new CharSequence[entrys.size()]);
-
-
-                // File delete confirm
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(context.getString(R.string.dialog_title_choose));
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (item == 0) {
-                            sendResultBack( holder.getAdapterPosition());
-                        }
-                    }
-                });
-                builder.setCancelable(true);
-                builder.setNegativeButton(context.getString(R.string.dialog_action_cancel),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog alert = builder.create();
-                alert.show();
-
-                return false;
-            }
-        });
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +63,12 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.MyView
 
     private void sendResultBack(int adapterPosition) {
 
+        Intent intent = new Intent(context , SalesActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("customer_id", customerArrayList.get(adapterPosition).getCustomerId().toString());
+        bundle.putString("customer_name",customerArrayList.get(adapterPosition).getCustomerName());
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 
     @Override
@@ -108,7 +82,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.MyView
 
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         ImageView customerImage ;
         TextView customerName , phoneNumber , customerAddress;
         View cardView;
@@ -120,6 +94,25 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.MyView
             customerName = (TextView) itemView.findViewById(R.id.customer_name);
             phoneNumber = (TextView) itemView.findViewById(R.id.phone_number);
             customerAddress = (TextView) itemView.findViewById(R.id.txt_address);
+
+            cardView.setOnLongClickListener(this);
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+         if(onLongItemClickListener!=null){
+              onLongItemClickListener.onLongItemClick(v, getAdapterPosition());
+         }
+            return false;
+        }
+    }
+    public interface onLongItemClickListener{
+         void onLongItemClick(View v , int position);
+    }
+
+    public void setOnLongItemClickListener(final onLongItemClickListener onLongItemClickListener)
+    {
+        this.onLongItemClickListener = onLongItemClickListener;
+
     }
 }
