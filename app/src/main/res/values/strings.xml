@@ -53,4 +53,5 @@
     <string name="license_title_company_name">Winsoft BD Pvt. Limited</string>
     <string name="search">Search</string>
     <string name="refresh">Refresh</string>
+    <string name="dialog_title_choose_item">Add Item</string>
 </resources>

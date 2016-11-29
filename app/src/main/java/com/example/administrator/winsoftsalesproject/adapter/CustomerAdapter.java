@@ -1,8 +1,6 @@
 package com.example.administrator.winsoftsalesproject.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.winsoftsalesproject.R;
-import com.example.administrator.winsoftsalesproject.activity.SalesActivity;
 import com.example.administrator.winsoftsalesproject.model.Customer;
 
 import java.util.ArrayList;
@@ -49,7 +46,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.MyView
         holder.customerName.setText(customerArrayList.get(position).getCustomerName());
         holder.customerAddress.setText(customerArrayList.get(position).getAddress());
         holder.phoneNumber.setText(customerArrayList.get(position).getEmail());
-       // Glide.with(context).load(customerArrayList.get(position).getCustomerId()).into(holder.customerImage);
+        // Glide.with(context).load(customerArrayList.get(position).getCustomerId()).into(holder.customerImage);
 
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -61,15 +58,6 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.MyView
 
     }
 
-    private void sendResultBack(int adapterPosition) {
-
-        Intent intent = new Intent(context , SalesActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("customer_id", customerArrayList.get(adapterPosition).getCustomerId().toString());
-        bundle.putString("customer_name",customerArrayList.get(adapterPosition).getCustomerName());
-        intent.putExtras(bundle);
-        context.startActivity(intent);
-    }
 
     @Override
     public int getItemCount() {
@@ -80,6 +68,15 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.MyView
         customerArrayList.addAll(contactListModel);
         notifyDataSetChanged();
 
+    }
+
+    public void setOnLongItemClickListener(final onLongItemClickListener onLongItemClickListener) {
+        this.onLongItemClickListener = onLongItemClickListener;
+
+    }
+
+    public interface onLongItemClickListener {
+        void onLongItemClick(View v, int position);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
@@ -105,14 +102,5 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.MyView
          }
             return false;
         }
-    }
-    public interface onLongItemClickListener{
-         void onLongItemClick(View v , int position);
-    }
-
-    public void setOnLongItemClickListener(final onLongItemClickListener onLongItemClickListener)
-    {
-        this.onLongItemClickListener = onLongItemClickListener;
-
     }
 }

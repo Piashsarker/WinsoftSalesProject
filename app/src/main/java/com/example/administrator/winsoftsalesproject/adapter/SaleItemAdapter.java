@@ -36,7 +36,7 @@ public class SaleItemAdapter extends RecyclerView.Adapter<SaleItemAdapter.MyView
     @Override
     public SaleItemAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.customer_row,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item, parent, false);
         return new SaleItemAdapter.MyViewHolder(view);
     }
 
@@ -46,7 +46,8 @@ public class SaleItemAdapter extends RecyclerView.Adapter<SaleItemAdapter.MyView
         holder.customerName.setText(customerArrayList.get(position).getItemName());
         holder.customerAddress.setText(customerArrayList.get(position).getBrandName());
         holder.phoneNumber.setText(customerArrayList.get(position).getSalesPrice().toString());
-        // Glide.with(context).load(customerArrayList.get(position).getCustomerId()).into(holder.customerImage);
+
+        holder.customerImage.setImageResource(R.drawable.item);
 
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +69,15 @@ public class SaleItemAdapter extends RecyclerView.Adapter<SaleItemAdapter.MyView
         customerArrayList.addAll(contactListModel);
         notifyDataSetChanged();
 
+    }
+
+    public void setOnLongItemClickListener(final SaleItemAdapter.onLongItemClickListener onLongItemClickListener) {
+        this.onLongItemClickListener = onLongItemClickListener;
+
+    }
+
+    public interface onLongItemClickListener {
+        void onLongItemClick(View v, int position);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
@@ -93,14 +103,5 @@ public class SaleItemAdapter extends RecyclerView.Adapter<SaleItemAdapter.MyView
             }
             return false;
         }
-    }
-    public interface onLongItemClickListener{
-        void onLongItemClick(View v , int position);
-    }
-
-    public void setOnLongItemClickListener(final SaleItemAdapter.onLongItemClickListener onLongItemClickListener)
-    {
-        this.onLongItemClickListener = onLongItemClickListener;
-
     }
 }

@@ -46,6 +46,7 @@ public class NavHomeActivity extends AppCompatActivity
         home = new Home();
         fragmentTransaction(home);
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -74,7 +75,7 @@ public class NavHomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            exitDialog();
         }
     }
 
@@ -115,8 +116,6 @@ public class NavHomeActivity extends AppCompatActivity
 
             //Replacing the main content with ContentFragment Which is our Inbox View;
             case R.id.nav_item_home:
-
-
                 fragmentTransaction(home);
                 return true;
 
@@ -192,7 +191,7 @@ public class NavHomeActivity extends AppCompatActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 
-        builder.setMessage("Do You Want Logout?")
+        builder.setMessage("Do You Want To Logout?")
                 .setTitle("Logout");
 
 
@@ -215,5 +214,6 @@ public class NavHomeActivity extends AppCompatActivity
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
 
 }

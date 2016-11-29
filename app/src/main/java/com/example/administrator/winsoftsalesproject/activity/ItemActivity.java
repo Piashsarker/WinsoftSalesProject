@@ -39,11 +39,11 @@ import retrofit2.Response;
 
 public class ItemActivity extends AppCompatActivity {
 
+    ErrorDialog errorDialog;
+    SessionManger sessionManger;
     private RecyclerView recyclerView;
     private SaleItemAdapter adapter;
     private ArrayList<ItemView> itemArrayList;
-    ErrorDialog errorDialog ;
-    SessionManger sessionManger ;
     private HashMap<String , String> user ;
 
 
@@ -112,7 +112,7 @@ public class ItemActivity extends AppCompatActivity {
 
                                 // File delete confirm
                                 AlertDialog.Builder builder = new AlertDialog.Builder(ItemActivity.this);
-                                builder.setTitle(getString(R.string.dialog_title_choose));
+                                builder.setTitle(getString(R.string.dialog_title_choose_item));
                                 builder.setItems(items, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int item) {
                                         if (item == 0) {

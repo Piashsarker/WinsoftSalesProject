@@ -27,6 +27,12 @@
         <item name="android:textColor">#444</item>
     </style>
 
+    <style name="Material_Headline_For_Item">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#444</item>
+    </style>
+
     <style name="Material_Title">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>

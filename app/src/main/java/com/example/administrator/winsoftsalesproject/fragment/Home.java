@@ -1,5 +1,6 @@
 package com.example.administrator.winsoftsalesproject.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +15,9 @@ import android.widget.Toast;
 
 import com.example.administrator.winsoftsalesproject.R;
 import com.example.administrator.winsoftsalesproject.activity.CustomerActivity;
-import com.example.administrator.winsoftsalesproject.activity.SalesListActivity;
 import com.example.administrator.winsoftsalesproject.activity.LoginActivity;
 import com.example.administrator.winsoftsalesproject.activity.SalesActivity;
+import com.example.administrator.winsoftsalesproject.activity.SalesListActivity;
 import com.example.administrator.winsoftsalesproject.session.SessionManger;
 
 import java.util.HashMap;
@@ -32,6 +33,7 @@ public class Home extends Fragment {
     private   String usrName,employeeId , employeePhoto;
     private SessionManger sessionManager  ;
     private HashMap<String , String> user ;
+    private Context context;
 
     public Home() {
         // Required empty public constructor
@@ -108,11 +110,6 @@ public class Home extends Fragment {
         // Inflate the layout for this fragment
         return rootView;
     }
-
-
-
-
-
 
 
     public void makeToast(String message){

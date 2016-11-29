@@ -1,8 +1,11 @@
 package com.example.administrator.winsoftsalesproject.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,27 +15,38 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.administrator.winsoftsalesproject.ErrorDialog;
 import com.example.administrator.winsoftsalesproject.R;
 import com.example.administrator.winsoftsalesproject.adapter.ProductAdapter;
-import com.example.administrator.winsoftsalesproject.model.Product;
+import com.example.administrator.winsoftsalesproject.list.SalesList;
+import com.example.administrator.winsoftsalesproject.model.SalesView;
+import com.example.administrator.winsoftsalesproject.retrofit.ApiService;
+import com.example.administrator.winsoftsalesproject.retrofit.RetroClient;
 import com.example.administrator.winsoftsalesproject.session.SessionManger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SalesListActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private ProductAdapter adapter;
-    private ArrayList<Product> productArrayList;
-    private FloatingActionButton btnSale;
+    ProductAdapter adapter;
     SessionManger sessionManger ;
     HashMap<String , String> user;
-    private TextView personName, designation;
     ImageView profile ;
+    ErrorDialog errorDialog;
+    private RecyclerView recyclerView;
+    private ArrayList<SalesView> productArrayList;
+    private FloatingActionButton btnSale;
+    private TextView personName, designation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +55,7 @@ public class SalesListActivity extends AppCompatActivity {
         toolbarSetup();
         initializeViews();
         initCollapsingToolbar();
-
+        errorDialog = new ErrorDialog(this);
         sessionManger = new SessionManger(this);
         user = sessionManger.getUserDetails();
         prepareCustomerList();
@@ -60,11 +74,7 @@ public class SalesListActivity extends AppCompatActivity {
     }
     private void prepareCustomerList() {
 
-        productArrayList = new ArrayList<>();
-        adapter= new ProductAdapter(getApplicationContext(),productArrayList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+
         prepareCustomer();
         try {
             byte[] decodeString = Base64.decode(user.get(sessionManger.KEY_EMPLOYEE_PHOTO).getBytes(),Base64.DEFAULT);
@@ -83,15 +93,50 @@ public class SalesListActivity extends AppCompatActivity {
 
     private void prepareCustomer() {
 
+        if (isNetworkConnected()) {
+            final ProgressDialog dialog;
+            dialog = new ProgressDialog(this);
+            dialog.setTitle("Wait!");
+            dialog.setMessage("Loading......");
+            dialog.show();
 
-        Product product = new Product("Android Phone","123333","12/12/2016","34566 TK");
-        productArrayList.add(product);
-       product = new Product("Android Phone","123333","12/12/2016","34566 TK");
-        productArrayList.add(product);
-         product = new Product("Android Phone","123333","12/12/2016","34566 TK");
-        productArrayList.add(product);
+            ApiService api = RetroClient.getApiService();
 
-        adapter.notifyDataSetChanged();
+            Call<SalesList> call = api.getSalesItem(user.get(sessionManger.KEY_KEY), "GETSALESINFO", user.get(sessionManger.KEY_USER_ID));
+            call.enqueue(new Callback<SalesList>() {
+                @Override
+                public void onResponse(Call<SalesList> call, Response<SalesList> response) {
+                    dialog.dismiss();
+
+                    if (response.isSuccess()) {
+
+                        productArrayList = new ArrayList<SalesView>();
+                        productArrayList = response.body().getSalesView();
+                        adapter = new ProductAdapter(getApplicationContext(), productArrayList);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+
+
+                    } else {
+                        Toast.makeText(SalesListActivity.this, "Server Error!", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<SalesList> call, Throwable t) {
+                    dialog.dismiss();
+                    Log.d("Server Error:", t.toString());
+                    errorDialog.showDialog("Error!", "Server Error, Try Again Later.");
+                }
+            });
+
+
+        } else {
+            errorDialog.showDialog("No Internet", "Please Enable Wifi or Mobile Data");
+        }
+
     }
 
 
@@ -146,6 +191,10 @@ public class SalesListActivity extends AppCompatActivity {
      * Adding few albums for testing
      */
 
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        return cm.getActiveNetworkInfo() != null;
+    }
 
     }
