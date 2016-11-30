@@ -3,6 +3,7 @@ package com.example.administrator.winsoftsalesproject.retrofit;
 import com.example.administrator.winsoftsalesproject.list.CustomerList;
 import com.example.administrator.winsoftsalesproject.list.ItemList;
 import com.example.administrator.winsoftsalesproject.list.LoginList;
+import com.example.administrator.winsoftsalesproject.list.MeasureMentUnitList;
 import com.example.administrator.winsoftsalesproject.list.SalesList;
 
 import retrofit2.Call;
@@ -33,4 +34,8 @@ public interface ApiService {
     Call<SalesList> getSalesItem(
             @Query("key") String key, @Query("actionType") String actionType, @Query("UserId") String userId
     );
+
+    @GET("ItemInfo.aspx")
+    Call<MeasureMentUnitList> getMeasurementList(@Query("key") String key, @Query("actionType") String actionType, @Query("ItemCode") String itemId);
+
 }

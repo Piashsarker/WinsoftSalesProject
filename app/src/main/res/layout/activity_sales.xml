@@ -156,11 +156,21 @@
                     android:id="@+id/txt_item_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_weight="2"
                     android:text="Item Name"
                     android:textAlignment="center"
-                    android:textSize="8pt" />
+                    android:textSize="8pt"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txt_or"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="2"
+                    android:text="@string/OrScan"
+                    android:textAlignment="center"
+                    android:textSize="12pt" />
                 <Button
                     android:id="@+id/btn_barcode_scanner"
                     android:layout_width="0dp"
@@ -198,8 +208,9 @@
 
                 <Spinner
                     android:id="@+id/minimum_unit_spinner"
+                    style="@style/spinner_style"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="12dp"
                     android:layout_weight="1"
                     android:prompt="@string/minimum_unit"
@@ -318,11 +329,12 @@
                 android:id="@+id/btnSale"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-
+                android:layout_marginTop="10dp"
                 android:background="@color/color_accent"
-                android:onClick="loginOnClick"
+                android:onClick="saleOnClick"
                 android:text="Sale"
                 android:textColor="@android:color/white"/>
 

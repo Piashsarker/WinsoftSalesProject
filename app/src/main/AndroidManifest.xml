@@ -33,6 +33,11 @@
         <activity
             android:name=".activity.SalesActivity"
             android:label="Sales">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.NavHomeActivity">
+
+            </meta-data>
 
         </activity>
         <activity
@@ -47,8 +52,13 @@
             android:label="@string/title_activity_nav_home"
             android:theme="@style/MyMaterialTheme" />
         <activity
-            android:label="Item List"
-            android:name=".activity.ItemActivity">
+            android:name=".activity.ItemActivity"
+            android:label="Item List">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.SalesActivity">
+
+            </meta-data>
 
 
         </activity>

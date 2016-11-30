@@ -1,14 +1,20 @@
 package com.example.administrator.winsoftsalesproject.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,14 +27,24 @@ import android.widget.Toast;
 
 import com.example.administrator.winsoftsalesproject.R;
 import com.example.administrator.winsoftsalesproject.adapter.ItemAdapter;
+import com.example.administrator.winsoftsalesproject.list.MeasureMentUnitList;
 import com.example.administrator.winsoftsalesproject.model.Item;
+import com.example.administrator.winsoftsalesproject.model.MeasurementUnitView;
+import com.example.administrator.winsoftsalesproject.retrofit.ApiService;
+import com.example.administrator.winsoftsalesproject.retrofit.RetroClient;
+import com.example.administrator.winsoftsalesproject.session.SessionManger;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SalesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -38,18 +54,25 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
     private ArrayList<Item> productList = new ArrayList<>();
     private RecyclerView salesList;
     private EditText etDate, etReference, etCustomerCode, etItemCode, etBalance, etQuantity;
-    private TextView txtCustomerName, txtItemName;
+    private TextView txtCustomerName, txtItemName, txtOr;
     private DatePickerDialog datePickerDialog;
     private SimpleDateFormat dateFormat;
     private String minimumUnit , itemId;
     private ItemAdapter adapter;
     private String customerId, name, itemName;
     private Intent intent ;
+    private SessionManger sessionManger;
+    private HashMap<String, String> user;
+
+    private TextInputLayout inputItemLayout;
+    private ArrayList<MeasurementUnitView> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales);
+        sessionManger = new SessionManger(SalesActivity.this);
+        user = sessionManger.getUserDetails();
         toolbarSetup();
         initializeView();
         hideBottomView();
@@ -63,34 +86,15 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
 
 
     private void loadSpinnerData() {
-        Spinner spinner = (Spinner) findViewById(R.id.minimum_unit_spinner);
-
-        // Spinner click listener
-        spinner.setOnItemSelectedListener(this);
-
-        String text = "10 PCS";
-        ArrayList<String> typeList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            typeList.add(text);
-        }
 
 
-        // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeList);
 
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-        Toast.makeText(this, adapterView.getItemAtPosition(i).toString(), Toast.LENGTH_SHORT).show();
-        ;
 
         minimumUnit = adapterView.getItemAtPosition(i).toString();
     }
@@ -128,11 +132,17 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
         etDate = (EditText) findViewById(R.id.et_date);
         etReference = (EditText) findViewById(R.id.et_reference);
         etCustomerCode = (EditText) findViewById(R.id.et_customer_code);
+
         etItemCode = (EditText) findViewById(R.id.et_item_code);
+        inputItemLayout = (TextInputLayout) findViewById(R.id.input_layout_item_code);
+        etItemCode.addTextChangedListener(new MyTextWatcher(etItemCode));
+
         etBalance = (EditText) findViewById(R.id.et_balance);
         etQuantity = (EditText) findViewById(R.id.et_quantity);
         btnSale = (Button) findViewById(R.id.btnSale);
         txtItemName = (TextView) findViewById(R.id.txt_item_name);
+        txtOr = (TextView) findViewById(R.id.txt_or);
+
 
 
     }
@@ -171,6 +181,8 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
                 etItemCode.setText(itemId);
                 itemName = data.getStringExtra("item_name");
                 txtItemName.setText(itemName);
+                txtItemName.setVisibility(View.VISIBLE);
+                txtOr.setVisibility(View.GONE);
             }
 
         }
@@ -207,6 +219,7 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
         String balance = etBalance.getText().toString();
         String quantity = etQuantity.getText().toString();
 
+
         if (!reference.isEmpty() && !date.isEmpty() && !customerCode.isEmpty() && !itemCode.isEmpty() && !balance.isEmpty() && !quantity.isEmpty()) {
 
 
@@ -241,5 +254,139 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
 
         Intent intent = new Intent(SalesActivity.this, ItemActivity.class);
         startActivityForResult(intent, 2);
+    }
+
+
+    public void saleOnClick(View view) {
+
+
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
+    public void setSpinnerData(ArrayList<MeasurementUnitView> spinnerData) {
+
+
+        Spinner spinner = (Spinner) findViewById(R.id.minimum_unit_spinner);
+
+
+        spinner.setOnItemSelectedListener(this);
+
+        ArrayList<String> typeList = new ArrayList<>();
+        for (int i = 0; i < spinnerData.size(); i++) {
+            String name = spinnerData.get(i).getMeasurementUnit();
+            typeList.add(name);
+        }
+
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeList);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
+
+    }
+
+    private boolean validateItem() {
+        String itemCode = etItemCode.getText().toString();
+
+
+        getMeasurementUnit(itemCode);
+
+        if (list.isEmpty()) {
+            inputItemLayout.setError("Item Code Not Correct");
+            requestFocus(etItemCode);
+            return false;
+        } else if (!list.isEmpty()) {
+            inputItemLayout.setErrorEnabled(false);
+
+
+        }
+        return true;
+    }
+
+    private void getMeasurementUnit(String itemCode) {
+
+        list = new ArrayList<>();
+        if (isNetworkConnected()) {
+
+            ApiService apiService = RetroClient.getApiService();
+
+            Call<MeasureMentUnitList> call = apiService.getMeasurementList(user.get(sessionManger.KEY_KEY), "GETMUNIT", itemCode);
+
+            call.enqueue(new Callback<MeasureMentUnitList>() {
+                @Override
+                public void onResponse(Call<MeasureMentUnitList> call, Response<MeasureMentUnitList> response) {
+                    if (response.code() == 200) {
+
+                        list = response.body().getMeasurementUnitView();
+                        setSpinnerData(list);
+                        if (!list.isEmpty()) {
+                            inputItemLayout.setErrorEnabled(false);
+
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MeasureMentUnitList> call, Throwable t) {
+                    Toast.makeText(SalesActivity.this, "Sever Error !", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+        } else {
+            Toast.makeText(this, "NO Internet !!", Toast.LENGTH_SHORT).show();
+
+
+        }
+
+
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
+    }
+
+    private class MyTextWatcher implements TextWatcher
+
+    {
+        private View view;
+
+        public MyTextWatcher(View etItemCode) {
+            this.view = etItemCode;
+        }
+
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            switch (view.getId()) {
+
+                case R.id.et_item_code:
+                    validateItem();
+                    break;
+
+            }
+        }
     }
 }
