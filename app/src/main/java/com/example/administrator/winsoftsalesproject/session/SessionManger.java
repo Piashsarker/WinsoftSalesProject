@@ -36,7 +36,10 @@ public class SessionManger {
     public static final String KEY_MSG_PASSWORD = "msg_password";
     public static final String KEY_MSG_BRAND_NAME = "msg_brand_name";
     public static final String KEY_REPORTING_MOBILE = "reporting_mobile";
+    public static final String KEY_USER_GROUP_ID = "reporting_mobile";
+    public static final String KEY_BRANCH_ID = "reporting_mobile";
     private static final String PREF_NAME = "RunnerGroupPref";
+
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
     private static final String GROUP_NAME = "group_name";
@@ -52,7 +55,7 @@ public class SessionManger {
     }
 
 
-    public void createLoginSession(String key, String employeeId, String employeeName, String employeePhoto, String approvedBy, String reportingBy, String departmentName, String employeeCode, String mobileNo, String reportingMobileNo, String leaveReqMsg, String userId, String msgUserName, String msgPassword, String msgBrandName, String leaveRejected, String leaveApprove, String tourRequest, String tourApprove, String tourRejected, String onDutyRequest, String onDutyApprove, String onDutyRejected) {
+    public void createLoginSession(String key, String employeeId, String employeeName, String employeePhoto, String approvedBy, String reportingBy, String departmentName, String employeeCode, String mobileNo, String reportingMobileNo, String leaveReqMsg, String userId, String msgUserName, String msgPassword, String msgBrandName, String leaveRejected, String leaveApprove, String tourRequest, String tourApprove, String tourRejected, String onDutyRequest, String onDutyApprove, String onDutyRejected, String userGroupId, String brandchID) {
 
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_KEY, key);
@@ -78,6 +81,8 @@ public class SessionManger {
         editor.putString(KEY_ONDUTY_REQUEST_MESSAGE, onDutyRequest);
         editor.putString(KEY_ONDUTY_APPROVE_MESSAGE, onDutyApprove);
         editor.putString(KEY_ONDUTY_REJECTED_MESSAGE, onDutyRejected);
+        editor.putString(KEY_USER_GROUP_ID, userGroupId);
+        editor.putString(KEY_BRANCH_ID, brandchID);
 
         editor.commit();
     }
@@ -135,6 +140,8 @@ public class SessionManger {
         user.put(KEY_ONDUTY_APPROVE_MESSAGE, sharedPreferences.getString(KEY_ONDUTY_APPROVE_MESSAGE, null));
         user.put(KEY_ONDUTY_REJECTED_MESSAGE, sharedPreferences.getString(KEY_ONDUTY_REJECTED_MESSAGE, null));
         user.put(KEY_ONDUTY_REQUEST_MESSAGE, sharedPreferences.getString(KEY_ONDUTY_REQUEST_MESSAGE, null));
+        user.put(KEY_USER_GROUP_ID, sharedPreferences.getString(KEY_USER_GROUP_ID, null));
+        user.put(KEY_BRANCH_ID, sharedPreferences.getString(KEY_BRANCH_ID, null));
         return user;
     }
 

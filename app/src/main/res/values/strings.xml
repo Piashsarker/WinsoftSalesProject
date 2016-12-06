@@ -26,7 +26,7 @@
     <string name="btn_scan">Scan</string>
     <string name="hint_item_code">Item Code</string>
     <string name="btn_add">ADD</string>
-    <string name="hint_minimum_unit">Minimum Unit</string>
+    <string name="hint_minimum_unit">M Unit</string>
     <string name="hint_quantity">Enter Quantity</string>
     <string name="minimum_unit">Enter Unit</string>
     <string name="hint_balance">Balance</string>
@@ -55,4 +55,6 @@
     <string name="refresh">Refresh</string>
     <string name="dialog_title_choose_item">Add Item</string>
     <string name="OrScan">OR</string>
+    <string name="txt_company">Company</string>
+    <string name="txt_branch">Branch</string>
 </resources>

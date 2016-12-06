@@ -32,11 +32,11 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     SessionManger sessionManager;
+    String userName, password;
     private Intent intent;
     private EditText inputEmail, inputPassword;
     private TextInputLayout inputLayoutEmail, inputLayoutPassword;
     private TextView txtGroupName;
-    String userName , password;
     private ArrayList<LoginTable> loginList;
 
     @Override
@@ -139,10 +139,11 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginList.get(0).getEmiNumber().equals(emi)) {
                     sessionManager = new SessionManger(getApplicationContext());
 
+
                     sessionManager.createLoginSession("fr_pt_2016", loginList.get(0).getEmployeeId().toString(), loginList.get(0).getEmployeeName().toString(), loginList.get(0).getEmployeePhoto().toString()
                             , loginList.get(0).getApprovedBy().toString(), loginList.get(0).getReportingTo().toString(),
                             loginList.get(0).getDepartmentName(), loginList.get(0).getEmployeeCode(), loginList.get(0).getMobileNo(), loginList.get(0).getReportingMobileNo(), loginList.get(0).getLeaveReqMsg(), loginList.get(0).getUserId().toString(), loginList.get(0).getMsgUserName(), loginList.get(0).getMsgUserPass(), loginList.get(0).getMsgBrandName(), loginList.get(0).getLeaveRejMsg(), loginList.get(0).getLeaveAprMsg(),
-                            loginList.get(0).getTourReqMsg(), loginList.get(0).getTourAprMsg(), loginList.get(0).getTourRejMsg(), loginList.get(0).getODReqMsg(), loginList.get(0).getODAprMsg(), loginList.get(0).getODRejMsg());
+                            loginList.get(0).getTourReqMsg(), loginList.get(0).getTourAprMsg(), loginList.get(0).getTourRejMsg(), loginList.get(0).getODReqMsg(), loginList.get(0).getODAprMsg(), loginList.get(0).getODRejMsg(), loginList.get(0).getUserGroupId().toString(), loginList.get(0).getBranchId());
                     Intent intent = new Intent(getApplicationContext(), NavHomeActivity.class);
                     startActivity(intent);
                     finish();

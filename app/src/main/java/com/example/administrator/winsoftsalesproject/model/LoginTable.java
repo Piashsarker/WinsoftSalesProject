@@ -26,6 +26,12 @@ public class LoginTable {
     @SerializedName("UserPassword")
     @Expose
     private String userPassword;
+    @SerializedName("UserGroupId")
+    @Expose
+    private Integer userGroupId;
+    @SerializedName("BranchId")
+    @Expose
+    private String branchId;
     @SerializedName("EmployeePhoto")
     @Expose
     private String employeePhoto;
@@ -84,96 +90,142 @@ public class LoginTable {
     @Expose
     private String emiNumber;
 
-    public String getEmiNumber() {
-        return emiNumber;
-    }
-
-    public void setEmiNumber(String emiNumber) {
-        this.emiNumber = emiNumber;
-    }
-
     /**
-     * @return The userId
+     *
+     * @return
+     * The userId
      */
     public Integer getUserId() {
         return userId;
     }
 
     /**
-     * @param userId The UserId
+     *
+     * @param userId
+     * The UserId
      */
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
     /**
-     * @return The employeeId
+     *
+     * @return
+     * The employeeId
      */
     public Integer getEmployeeId() {
         return employeeId;
     }
 
     /**
-     * @param employeeId The EmployeeId
+     *
+     * @param employeeId
+     * The EmployeeId
      */
     public void setEmployeeId(Integer employeeId) {
         this.employeeId = employeeId;
     }
 
     /**
-     * @return The employeeCode
+     *
+     * @return
+     * The employeeCode
      */
     public String getEmployeeCode() {
         return employeeCode;
     }
 
     /**
-     * @param employeeCode The EmployeeCode
+     *
+     * @param employeeCode
+     * The EmployeeCode
      */
     public void setEmployeeCode(String employeeCode) {
         this.employeeCode = employeeCode;
     }
 
     /**
-     * @return The employeeName
+     *
+     * @return
+     * The employeeName
      */
     public String getEmployeeName() {
         return employeeName;
     }
 
     /**
-     * @param employeeName The EmployeeName
+     *
+     * @param employeeName
+     * The EmployeeName
      */
     public void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
     }
 
     /**
-     * @return The userName
+     *
+     * @return
+     * The userName
      */
     public String getUserName() {
         return userName;
     }
 
     /**
-     * @param userName The UserName
+     *
+     * @param userName
+     * The UserName
      */
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
     /**
-     * @return The userPassword
+     *
+     * @return
+     * The userPassword
      */
     public String getUserPassword() {
         return userPassword;
     }
 
     /**
-     * @param userPassword The UserPassword
+     *
+     * @param userPassword
+     * The UserPassword
      */
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    /**
+     *
+     * @return
+     * The userGroupId
+     */
+    public Integer getUserGroupId() {
+        return userGroupId;
+    }
+
+    /**
+     * @param userGroupId The UserGroupId
+     */
+    public void setUserGroupId(Integer userGroupId) {
+        this.userGroupId = userGroupId;
+    }
+
+    /**
+     * @return The branchId
+     */
+    public String getBranchId() {
+        return branchId;
+    }
+
+    /**
+     * @param branchId The BranchId
+     */
+    public void setBranchId(String branchId) {
+        this.branchId = branchId;
     }
 
     /**
@@ -184,248 +236,334 @@ public class LoginTable {
     }
 
     /**
-     * @param employeePhoto The EmployeePhoto
+     *
+     * @param employeePhoto
+     * The EmployeePhoto
      */
     public void setEmployeePhoto(String employeePhoto) {
         this.employeePhoto = employeePhoto;
     }
 
     /**
-     * @return The reportingTo
+     *
+     * @return
+     * The reportingTo
      */
     public Integer getReportingTo() {
         return reportingTo;
     }
 
     /**
-     * @param reportingTo The ReportingTo
+     *
+     * @param reportingTo
+     * The ReportingTo
      */
     public void setReportingTo(Integer reportingTo) {
         this.reportingTo = reportingTo;
     }
 
     /**
-     * @return The approvedBy
+     *
+     * @return
+     * The approvedBy
      */
     public Integer getApprovedBy() {
         return approvedBy;
     }
 
     /**
-     * @param approvedBy The ApprovedBy
+     *
+     * @param approvedBy
+     * The ApprovedBy
      */
     public void setApprovedBy(Integer approvedBy) {
         this.approvedBy = approvedBy;
     }
 
     /**
-     * @return The departmentName
+     *
+     * @return
+     * The departmentName
      */
     public String getDepartmentName() {
         return departmentName;
     }
 
     /**
-     * @param departmentName The DepartmentName
+     *
+     * @param departmentName
+     * The DepartmentName
      */
     public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
     }
 
     /**
-     * @return The mobileNo
+     *
+     * @return
+     * The mobileNo
      */
     public String getMobileNo() {
         return mobileNo;
     }
 
     /**
-     * @param mobileNo The MobileNo
+     *
+     * @param mobileNo
+     * The MobileNo
      */
     public void setMobileNo(String mobileNo) {
         this.mobileNo = mobileNo;
     }
 
     /**
-     * @return The reportingMobileNo
+     *
+     * @return
+     * The reportingMobileNo
      */
     public String getReportingMobileNo() {
         return reportingMobileNo;
     }
 
     /**
-     * @param reportingMobileNo The ReportingMobileNo
+     *
+     * @param reportingMobileNo
+     * The ReportingMobileNo
      */
     public void setReportingMobileNo(String reportingMobileNo) {
         this.reportingMobileNo = reportingMobileNo;
     }
 
     /**
-     * @return The leaveReqMsg
+     *
+     * @return
+     * The leaveReqMsg
      */
     public String getLeaveReqMsg() {
         return leaveReqMsg;
     }
 
     /**
-     * @param leaveReqMsg The LeaveReqMsg
+     *
+     * @param leaveReqMsg
+     * The LeaveReqMsg
      */
     public void setLeaveReqMsg(String leaveReqMsg) {
         this.leaveReqMsg = leaveReqMsg;
     }
 
     /**
-     * @return The leaveRejMsg
+     *
+     * @return
+     * The leaveRejMsg
      */
     public String getLeaveRejMsg() {
         return leaveRejMsg;
     }
 
     /**
-     * @param leaveRejMsg The LeaveRejMsg
+     *
+     * @param leaveRejMsg
+     * The LeaveRejMsg
      */
     public void setLeaveRejMsg(String leaveRejMsg) {
         this.leaveRejMsg = leaveRejMsg;
     }
 
     /**
-     * @return The leaveAprMsg
+     *
+     * @return
+     * The leaveAprMsg
      */
     public String getLeaveAprMsg() {
         return leaveAprMsg;
     }
 
     /**
-     * @param leaveAprMsg The LeaveAprMsg
+     *
+     * @param leaveAprMsg
+     * The LeaveAprMsg
      */
     public void setLeaveAprMsg(String leaveAprMsg) {
         this.leaveAprMsg = leaveAprMsg;
     }
 
     /**
-     * @return The tourReqMsg
+     *
+     * @return
+     * The tourReqMsg
      */
     public String getTourReqMsg() {
         return tourReqMsg;
     }
 
     /**
-     * @param tourReqMsg The TourReqMsg
+     *
+     * @param tourReqMsg
+     * The TourReqMsg
      */
     public void setTourReqMsg(String tourReqMsg) {
         this.tourReqMsg = tourReqMsg;
     }
 
     /**
-     * @return The tourRejMsg
+     *
+     * @return
+     * The tourRejMsg
      */
     public String getTourRejMsg() {
         return tourRejMsg;
     }
 
     /**
-     * @param tourRejMsg The TourRejMsg
+     *
+     * @param tourRejMsg
+     * The TourRejMsg
      */
     public void setTourRejMsg(String tourRejMsg) {
         this.tourRejMsg = tourRejMsg;
     }
 
     /**
-     * @return The tourAprMsg
+     *
+     * @return
+     * The tourAprMsg
      */
     public String getTourAprMsg() {
         return tourAprMsg;
     }
 
     /**
-     * @param tourAprMsg The TourAprMsg
+     *
+     * @param tourAprMsg
+     * The TourAprMsg
      */
     public void setTourAprMsg(String tourAprMsg) {
         this.tourAprMsg = tourAprMsg;
     }
 
     /**
-     * @return The oDReqMsg
+     *
+     * @return
+     * The oDReqMsg
      */
     public String getODReqMsg() {
         return oDReqMsg;
     }
 
     /**
-     * @param oDReqMsg The ODReqMsg
+     *
+     * @param oDReqMsg
+     * The ODReqMsg
      */
     public void setODReqMsg(String oDReqMsg) {
         this.oDReqMsg = oDReqMsg;
     }
 
     /**
-     * @return The oDRejMsg
+     *
+     * @return
+     * The oDRejMsg
      */
     public String getODRejMsg() {
         return oDRejMsg;
     }
 
     /**
-     * @param oDRejMsg The ODRejMsg
+     *
+     * @param oDRejMsg
+     * The ODRejMsg
      */
     public void setODRejMsg(String oDRejMsg) {
         this.oDRejMsg = oDRejMsg;
     }
 
     /**
-     * @return The oDAprMsg
+     *
+     * @return
+     * The oDAprMsg
      */
     public String getODAprMsg() {
         return oDAprMsg;
     }
 
     /**
-     * @param oDAprMsg The ODAprMsg
+     *
+     * @param oDAprMsg
+     * The ODAprMsg
      */
     public void setODAprMsg(String oDAprMsg) {
         this.oDAprMsg = oDAprMsg;
     }
 
     /**
-     * @return The msgUserName
+     *
+     * @return
+     * The msgUserName
      */
     public String getMsgUserName() {
         return msgUserName;
     }
 
     /**
-     * @param msgUserName The MsgUserName
+     *
+     * @param msgUserName
+     * The MsgUserName
      */
     public void setMsgUserName(String msgUserName) {
         this.msgUserName = msgUserName;
     }
 
     /**
-     * @return The msgUserPass
+     *
+     * @return
+     * The msgUserPass
      */
     public String getMsgUserPass() {
         return msgUserPass;
     }
 
     /**
-     * @param msgUserPass The MsgUserPass
+     *
+     * @param msgUserPass
+     * The MsgUserPass
      */
     public void setMsgUserPass(String msgUserPass) {
         this.msgUserPass = msgUserPass;
     }
 
     /**
-     * @return The msgBrandName
+     *
+     * @return
+     * The msgBrandName
      */
     public String getMsgBrandName() {
         return msgBrandName;
     }
 
     /**
-     * @param msgBrandName The MsgBrandName
+     *
+     * @param msgBrandName
+     * The MsgBrandName
      */
     public void setMsgBrandName(String msgBrandName) {
         this.msgBrandName = msgBrandName;
+    }
+
+    /**
+     *
+     * @return
+     * The emiNumber
+     */
+    public String getEmiNumber() {
+        return emiNumber;
+    }
+
+    /**
+     * @param emiNumber The EmiNumber
+     */
+    public void setEmiNumber(String emiNumber) {
+        this.emiNumber = emiNumber;
     }
 
 }

@@ -1,5 +1,7 @@
 package com.example.administrator.winsoftsalesproject.retrofit;
 
+import com.example.administrator.winsoftsalesproject.list.BranchList;
+import com.example.administrator.winsoftsalesproject.list.CompanyList;
 import com.example.administrator.winsoftsalesproject.list.CustomerList;
 import com.example.administrator.winsoftsalesproject.list.ItemList;
 import com.example.administrator.winsoftsalesproject.list.LoginList;
@@ -37,5 +39,11 @@ public interface ApiService {
 
     @GET("ItemInfo.aspx")
     Call<MeasureMentUnitList> getMeasurementList(@Query("key") String key, @Query("actionType") String actionType, @Query("ItemCode") String itemId);
+
+    @GET("ComboBox.aspx")
+    Call<BranchList> getBranchlist(@Query("key") String key, @Query("actionType") String actionType, @Query("UserGroupId") String userGroupId, @Query("EmployeeId") String employeeId, @Query("BranchId") String branchId, @Query("CompanyId") String companyId);
+
+    @GET("ComboBox.aspx")
+    Call<CompanyList> getCompanyList(@Query("key") String key, @Query("actionType") String actionType, @Query("UserGroupId") String userGroupId, @Query("EmployeeId") String employeeId, @Query("BranchId") String branchId);
 
 }
