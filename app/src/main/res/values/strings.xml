@@ -57,4 +57,5 @@
     <string name="OrScan">OR</string>
     <string name="txt_company">Company</string>
     <string name="txt_branch">Branch</string>
+    <string name="dialog_add_item">Add This Item</string>
 </resources>

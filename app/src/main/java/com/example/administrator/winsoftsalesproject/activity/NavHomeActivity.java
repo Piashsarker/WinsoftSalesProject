@@ -122,7 +122,7 @@ public class NavHomeActivity extends AppCompatActivity
             // For rest of the options we just show a toast on click
 
             case R.id.nav_item_sale_list:
-                Intent intent = new Intent(getApplicationContext(),SalesListActivity.class);
+                Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.nav_item_sale_product:

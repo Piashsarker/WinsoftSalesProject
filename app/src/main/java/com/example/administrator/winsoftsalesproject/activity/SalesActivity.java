@@ -1,6 +1,7 @@
 package com.example.administrator.winsoftsalesproject.activity;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -20,16 +21,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.administrator.winsoftsalesproject.ErrorDialog;
 import com.example.administrator.winsoftsalesproject.R;
 import com.example.administrator.winsoftsalesproject.adapter.ItemAdapter;
+import com.example.administrator.winsoftsalesproject.list.BranchList;
+import com.example.administrator.winsoftsalesproject.list.CompanyList;
 import com.example.administrator.winsoftsalesproject.list.MeasureMentUnitList;
 import com.example.administrator.winsoftsalesproject.model.Item;
 import com.example.administrator.winsoftsalesproject.model.MeasurementUnitView;
+import com.example.administrator.winsoftsalesproject.model.PermittedBranchView;
+import com.example.administrator.winsoftsalesproject.model.PermittedCompanyView;
+import com.example.administrator.winsoftsalesproject.model.PostingResponse;
 import com.example.administrator.winsoftsalesproject.retrofit.ApiService;
 import com.example.administrator.winsoftsalesproject.retrofit.RetroClient;
 import com.example.administrator.winsoftsalesproject.session.SessionManger;
@@ -49,23 +55,26 @@ import retrofit2.Response;
 public class SalesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Button btnSale;
-    private ImageButton btnAddCustomer;
-    private Button btnAddItem;
     private ArrayList<Item> productList = new ArrayList<>();
     private RecyclerView salesList;
     private EditText etDate, etReference, etCustomerCode, etItemCode, etBalance, etQuantity;
-    private TextView txtCustomerName, txtItemName, txtOr;
+    private TextView  txtItemName, txtOr;
     private DatePickerDialog datePickerDialog;
     private SimpleDateFormat dateFormat;
-    private String minimumUnit , itemId;
+    private String minimumUnit , itemId , companyName, companyId, branchName, branchId;
     private ItemAdapter adapter;
-    private String customerId, name, itemName;
+    private String customerId,  itemName;
     private Intent intent ;
     private SessionManger sessionManger;
     private HashMap<String, String> user;
-
+    private Spinner companySpinner , branchSpinner;
     private TextInputLayout inputItemLayout;
     private ArrayList<MeasurementUnitView> list;
+    private ArrayList<PermittedCompanyView> companyList;
+    private ArrayList<PermittedBranchView> branchList;
+    private ErrorDialog errorDialog;
+    private  ProgressDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,30 +82,170 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
         setContentView(R.layout.activity_sales);
         sessionManger = new SessionManger(SalesActivity.this);
         user = sessionManger.getUserDetails();
+        errorDialog = new ErrorDialog(this);
+        dialog  = new ProgressDialog(this) ;
         toolbarSetup();
         initializeView();
         hideBottomView();
         setDatePickerDialog();
-        loadSpinnerData();
+        loadCompanyData();
 
 
 
 
     }
 
+    private void showProgressBar(){
 
-    private void loadSpinnerData() {
+        dialog.setTitle("Wait");
+        dialog.setMessage("Data Loading......");
+        dialog.show();
+    }
+    private void hideProgressBar(){
+        dialog.dismiss();
+    }
+
+    private void loadCompanyData() {
+        showProgressBar();
+        companyList = new ArrayList<PermittedCompanyView>();
+        if(isNetworkConnected()){
+
+            ApiService apiService = RetroClient.getApiService();
+
+            Call<CompanyList> call = apiService.getCompanyList(user.get(sessionManger.KEY_KEY),"GETPCOMPANY",user.get(sessionManger.KEY_USER_GROUP_ID),user.get(sessionManger.KEY_EMPLOYEE_ID),user.get(sessionManger.KEY_BRANCH_ID));
 
 
+            call.enqueue(new Callback<CompanyList>() {
 
+                @Override
+                public void onResponse(Call<CompanyList> call, Response<CompanyList> response) {
+                    hideProgressBar();
+                    if(response.isSuccess()){
+                        companyList = response.body().getPermittedCompanyView();
+                        loadCompanySpinner(companyList);
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<CompanyList> call, Throwable t) {
+
+                    Toast.makeText(SalesActivity.this, "Server Error!", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+
+                }
+            });
+
+        }
+
+        else{
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
+
+    private void loadCompanySpinner(ArrayList<PermittedCompanyView> companyList) {
+        companySpinner.setOnItemSelectedListener(this);
+
+        ArrayList<String> typeList = new ArrayList<>();
+        for (int i = 0; i < companyList.size(); i++) {
+            String name = companyList.get(i).getCompanyName();
+            typeList.add(name);
+        }
+
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeList);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        companySpinner.setAdapter(dataAdapter);
+    }
+
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        if(adapterView.getId()==R.id.spinner_company){
+            companyName = adapterView.getItemAtPosition(i).toString();
+            companyId =  companyList.get(i).getCompanyId().toString();
 
-        minimumUnit = adapterView.getItemAtPosition(i).toString();
+            Toast.makeText(this, companyId, Toast.LENGTH_SHORT).show();
+            loadBranchSpinnerData(companyId);
+        }
+        if(adapterView.getId()==R.id.minimum_unit_spinner){
+            minimumUnit = adapterView.getItemAtPosition(i).toString();
+        }
+        if(adapterView.getId()==R.id.spinner_branch){
+            branchId = branchList.get(i).getBranchId().toString();
+        }
+
+    }
+
+    private void loadBranchSpinnerData(String companyId) {
+
+        branchList = new ArrayList<PermittedBranchView>();
+        if(isNetworkConnected()){
+            showProgressBar();
+            ApiService apiService = RetroClient.getApiService();
+
+            Call<BranchList> call = apiService.getBranchlist(user.get(sessionManger.KEY_KEY),"GETPBRANCH",user.get(sessionManger.KEY_USER_GROUP_ID),user.get(sessionManger.KEY_EMPLOYEE_ID),user.get(sessionManger.KEY_BRANCH_ID),companyId);
+
+
+            call.enqueue(new Callback<BranchList>() {
+
+                @Override
+                public void onResponse(Call<BranchList> call, Response<BranchList> response) {
+                    hideProgressBar();
+                    if(response.isSuccess()){
+                        branchList = response.body().getPermittedBranchView();
+                        loadBranchSpinner(branchList);
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<BranchList> call, Throwable t) {
+
+                    Toast.makeText(SalesActivity.this, "Server Error!", Toast.LENGTH_SHORT).show();
+                    hideProgressBar();
+
+                }
+            });
+
+        }
+
+        else{
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void loadBranchSpinner(ArrayList<PermittedBranchView> branchList) {
+
+        branchSpinner.setOnItemSelectedListener(this);
+
+        ArrayList<String> typeList = new ArrayList<>();
+        for (int i = 0; i < branchList.size(); i++) {
+            String name = branchList.get(i).getBranchName();
+            typeList.add(name);
+        }
+
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeList);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        branchSpinner.setAdapter(dataAdapter);
+
+
     }
 
     @Override
@@ -142,6 +291,8 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
         btnSale = (Button) findViewById(R.id.btnSale);
         txtItemName = (TextView) findViewById(R.id.txt_item_name);
         txtOr = (TextView) findViewById(R.id.txt_or);
+        companySpinner = (Spinner) findViewById(R.id.spinner_company);
+        branchSpinner = (Spinner) findViewById(R.id.spinner_branch);
 
 
 
@@ -218,15 +369,32 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
         String itemCode = etItemCode.getText().toString();
         String balance = etBalance.getText().toString();
         String quantity = etQuantity.getText().toString();
+        String itemName = txtItemName.getText().toString();
+
 
 
         if (!reference.isEmpty() && !date.isEmpty() && !customerCode.isEmpty() && !itemCode.isEmpty() && !balance.isEmpty() && !quantity.isEmpty()) {
 
+            int balanceValue = Integer.parseInt(balance);
+            int quantityValue = Integer.parseInt(quantity);
 
-            Item item = new Item(date, reference, customerCode, itemCode, minimumUnit, balance, quantity);
-            productList.add(item);
+            if (balanceValue>= quantityValue){
+                Item item = new Item(date, reference,branchId, customerCode, itemCode, itemName,  minimumUnit, balance, quantity);
+                productList.add(item);
+                setSaleList(productList);
 
-            setSaleList(productList);
+                etItemCode.setText("");
+                txtItemName.setText("");
+                etBalance.setText("");
+                etQuantity.setText("");
+
+
+
+            }
+            else {
+                Toast.makeText(this, "Not Enough Balance", Toast.LENGTH_SHORT).show();
+            }
+
 
 
         } else {
@@ -259,8 +427,78 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
 
     public void saleOnClick(View view) {
 
+        String saleId = "0";
+        sentFirstSaleInfo(saleId , productList);
+
+
+
 
     }
+
+    private void sentFirstSaleInfo(String saleId, final ArrayList<Item> productList) {
+        if(isNetworkConnected()){
+            showProgressBar();
+
+            ApiService apiService = RetroClient.getApiService();
+
+            Call<PostingResponse> call = apiService.postSelesItem(user.get(sessionManger.KEY_KEY),"POSTSALESINFO",saleId,productList.get(0).getDate(),productList.get(0).getReference(),productList.get(0).getBranchId(),productList.get(0).getCustomerCode(),productList.get(0).getItemCode(),productList.get(0).getMinimumUnit(),productList.get(0).getQuantity(),user.get(sessionManger.KEY_EMPLOYEE_ID));
+
+            call.enqueue(new Callback<PostingResponse>() {
+                @Override
+                public void onResponse(Call<PostingResponse> call, Response<PostingResponse> response) {
+                    hideProgressBar();
+                    if(response.isSuccess()){
+                        PostingResponse postingResponse = response.body();
+                        sentAllSalesInfoWithResponseId(postingResponse.getResponse() , productList);
+                        errorDialog.showDialog("Success!","Data Sent Successfully!");
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<PostingResponse> call, Throwable t) {
+                    hideProgressBar();
+                    errorDialog.showDialog("Error","Server Error!");
+                }
+            });
+        }
+        else {
+            errorDialog.showDialog("No Internet!","Please Enable WiFi or Mobile Data.");
+        }
+    }
+
+    private void sentAllSalesInfoWithResponseId(String response, ArrayList<Item> productList) {
+        if(isNetworkConnected()){
+
+            for(int i=1 ; i<productList.size(); i++){
+                ApiService apiService = RetroClient.getApiService();
+
+                Call<PostingResponse> call = apiService.postSelesItem(user.get(sessionManger.KEY_KEY),"POSTSALESINFO",response,productList.get(i).getDate(),productList.get(i).getReference(),productList.get(i).getBranchId(),productList.get(i).getCustomerCode(),productList.get(i).getItemCode(),productList.get(i).getMinimumUnit(),productList.get(i).getQuantity(),user.get(sessionManger.KEY_EMPLOYEE_ID));
+
+                call.enqueue(new Callback<PostingResponse>() {
+                    @Override
+                    public void onResponse(Call<PostingResponse> call, Response<PostingResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostingResponse> call, Throwable t) {
+
+                        errorDialog.showDialog("Error","Server Error!");
+                    }
+                });
+            }
+
+            this.productList.clear();
+            salesList.setVisibility(View.INVISIBLE);
+            btnSale.setVisibility(View.INVISIBLE);
+
+        }
+        else {
+            errorDialog.showDialog("No Internet!","Please Enable WiFi or Mobile Data.");
+        }
+    }
+
 
     private void requestFocus(View view) {
         if (view.requestFocus()) {
@@ -314,6 +552,12 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
 
     private void getMeasurementUnit(String itemCode) {
 
+        final ProgressDialog dialog ;
+        dialog = new ProgressDialog(this);
+        dialog.setTitle("Wait");
+        dialog.setMessage("Data Loading.....");
+        dialog.show();
+
         list = new ArrayList<>();
         if (isNetworkConnected()) {
 
@@ -324,6 +568,8 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
             call.enqueue(new Callback<MeasureMentUnitList>() {
                 @Override
                 public void onResponse(Call<MeasureMentUnitList> call, Response<MeasureMentUnitList> response) {
+                    dialog.dismiss();
+
                     if (response.code() == 200) {
 
                         list = response.body().getMeasurementUnitView();
@@ -338,6 +584,7 @@ public class SalesActivity extends AppCompatActivity implements AdapterView.OnIt
 
                 @Override
                 public void onFailure(Call<MeasureMentUnitList> call, Throwable t) {
+                    dialog.dismiss();
                     Toast.makeText(SalesActivity.this, "Sever Error !", Toast.LENGTH_SHORT).show();
                 }
             });

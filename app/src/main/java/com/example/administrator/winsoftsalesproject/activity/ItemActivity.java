@@ -105,7 +105,7 @@ public class ItemActivity extends AppCompatActivity {
                             public void onLongItemClick(View v, final int position) {
 
                                 ArrayList<String> entrys = new ArrayList<String>();
-                                entrys.add(getString(R.string.dialog_add));
+                                entrys.add(getString(R.string.dialog_add_item));
 
                                 final CharSequence[] items = entrys.toArray(new CharSequence[entrys.size()]);
 
@@ -161,6 +161,7 @@ public class ItemActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.putExtra("item_id", itemArrayList.get(position).getItemCode().toString());
         intent.putExtra("item_name",itemArrayList.get(position).getItemName().toString());
+
         setResult(RESULT_OK, intent);
         finish();
     }

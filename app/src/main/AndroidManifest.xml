@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.SalesListActivity"
+            android:name=".activity.HomeActivity"
             android:label="Sale List">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

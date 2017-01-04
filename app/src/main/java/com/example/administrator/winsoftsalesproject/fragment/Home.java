@@ -17,7 +17,7 @@ import com.example.administrator.winsoftsalesproject.R;
 import com.example.administrator.winsoftsalesproject.activity.CustomerActivity;
 import com.example.administrator.winsoftsalesproject.activity.LoginActivity;
 import com.example.administrator.winsoftsalesproject.activity.SalesActivity;
-import com.example.administrator.winsoftsalesproject.activity.SalesListActivity;
+import com.example.administrator.winsoftsalesproject.activity.HomeActivity;
 import com.example.administrator.winsoftsalesproject.session.SessionManger;
 
 import java.util.HashMap;
@@ -68,7 +68,7 @@ public class Home extends Fragment {
         saleList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(getActivity(), SalesListActivity.class);
+                intent = new Intent(getActivity(), HomeActivity.class);
                 startActivity(intent);
 
             }

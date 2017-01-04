@@ -27,53 +27,6 @@
             android:orientation="vertical">
 
             <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:id="@+id/txt_company"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:hint="@string/txt_company"
-                    android:inputType="text"
-                    android:textSize="8pt" />
-
-                <Spinner
-                    android:id="@+id/company_spinner"
-                    style="@style/spinner_style"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:prompt="@string/minimum_unit" />
-
-                <TextView
-                    android:id="@+id/txt_branch"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/txt_branch"
-                    android:inputType="text"
-                    android:textSize="8pt" />
-
-                <Spinner
-                    android:id="@+id/spinner_branch"
-                    style="@style/spinner_style"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:prompt="@string/minimum_unit" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -115,7 +68,51 @@
 
             </LinearLayout>
 
+            <LinearLayout
 
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/txt_company"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="@string/txt_company"
+                    android:inputType="text"
+                    android:textSize="8pt" />
+
+                <Spinner
+                    android:id="@+id/spinner_company"
+                    style="@style/spinner_style"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:prompt="@string/minimum_unit" />
+
+                <TextView
+                    android:id="@+id/txt_branch"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:layout_weight="1"
+                    android:hint="@string/txt_branch"
+                    android:inputType="text"
+                    android:textSize="8pt" />
+
+                <Spinner
+                    android:id="@+id/spinner_branch"
+                    style="@style/spinner_style"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:prompt="@string/minimum_unit" />
+
+
+            </LinearLayout>
 
 
             <LinearLayout
@@ -260,7 +257,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginTop="12dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:prompt="@string/minimum_unit"
                     />
 
@@ -268,7 +265,7 @@
                     android:id="@+id/input_layout_balance"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     app:passwordToggleEnabled="true">
 
                     <EditText
@@ -329,8 +326,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Date"
+                        android:layout_weight=".8"
+                        android:text="Item Code"
                         android:textAlignment="center"
                         android:textColor="#FFFFFF"/>
 
@@ -338,26 +335,34 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:layout_weight="1"
-                        android:text="Customer Code"
-                        android:textAlignment="viewStart"
+                        android:layout_weight=".8"
+                        android:text="Item Name"
+                        android:textAlignment="center"
                         android:textColor="#FFFFFF"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:layout_weight="1"
-                        android:text="Item Code"
-                        android:textAlignment="viewStart"
+                        android:layout_weight=".5"
+                        android:text="Quantity"
+                        android:textAlignment="center"
                         android:textColor="#FFFFFF"/>
 
                     <TextView
                         android:id="@+id/textView1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Balance"
+                        android:layout_weight=".5"
+                        android:text="M Unit"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"/>
+                    <TextView
+                        android:id="@+id/txt_delete"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:text="Remove"
                         android:textAlignment="center"
                         android:textColor="#FFFFFF"/>
                 </TableRow>

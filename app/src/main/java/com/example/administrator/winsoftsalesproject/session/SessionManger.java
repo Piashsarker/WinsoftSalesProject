@@ -36,8 +36,8 @@ public class SessionManger {
     public static final String KEY_MSG_PASSWORD = "msg_password";
     public static final String KEY_MSG_BRAND_NAME = "msg_brand_name";
     public static final String KEY_REPORTING_MOBILE = "reporting_mobile";
-    public static final String KEY_USER_GROUP_ID = "reporting_mobile";
-    public static final String KEY_BRANCH_ID = "reporting_mobile";
+    public static final String KEY_USER_GROUP_ID = "user_group_id";
+    public static final String KEY_BRANCH_ID = "branch_id";
     private static final String PREF_NAME = "RunnerGroupPref";
 
     // All Shared Preferences Keys

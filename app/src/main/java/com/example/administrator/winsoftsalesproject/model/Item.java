@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by pt on 11/9/16.
  */
 
-public class Item  implements Serializable{
+public class Item implements Serializable {
     private String date;
     private String reference;
     private String customerCode;
@@ -14,15 +14,35 @@ public class Item  implements Serializable{
     private String minimumUnit;
     private String balance;
     private String quantity;
+    private String itemName;
+    private  String branchId;
 
-    public Item(String date, String reference, String customerCode, String itemCode, String minimumUnit, String balance, String quantity) {
+    public String getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(String branchId) {
+        this.branchId = branchId;
+    }
+
+    public Item(String date, String reference, String branchId, String customerCode, String itemCode, String itemName, String minimumUnit, String balance, String quantity) {
         this.date = date;
         this.reference = reference;
+        this.branchId = branchId;
         this.customerCode = customerCode;
         this.itemCode = itemCode;
         this.minimumUnit = minimumUnit;
         this.balance = balance;
         this.quantity = quantity;
+        this.itemName = itemName;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public String getDate() {
